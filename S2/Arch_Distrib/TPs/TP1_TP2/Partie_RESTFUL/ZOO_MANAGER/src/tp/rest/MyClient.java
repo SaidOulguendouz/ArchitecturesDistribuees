@@ -94,6 +94,7 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
         printSource(result);
     }
+    
     public void printSource(Source s) {
         try {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -109,8 +110,9 @@ public class MyClient {
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
         //client.edit_animals();
         //client.delete_animals();
-        //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
+        client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
         //client.edit_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
         //client.delete_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
+       //client.find_animal_By_Name("Test22");
     }
 }

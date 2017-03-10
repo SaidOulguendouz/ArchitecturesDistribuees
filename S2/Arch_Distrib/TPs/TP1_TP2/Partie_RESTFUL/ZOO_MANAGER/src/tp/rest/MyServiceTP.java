@@ -105,8 +105,22 @@ public class MyServiceTP implements Provider<Source> {
                         throw new HTTPException(404);
                 }
             }
-            else if (path.startsWith("find/")) {
-                throw new HTTPException(503);
+            else if (path.startsWith("find")) {
+            	//System.out.println("hello-0");
+            	/*****************************************/
+            		String[] path_parts = path.split("/");
+                    switch (path_parts.length){
+                        case 1 :
+                        	//System.out.println("hello-1");
+                        	return this.animalsCrud(method, source);
+                        case 2 :
+                        	//System.out.println("hello-2");
+                            return this.animalCrudFind(method, source, path_parts[1]);
+                        default:
+                            throw new HTTPException(404);
+                    }
+            	/**********************************************/
+                //throw new HTTPException(503);
             }
             else if ("coffee".equals(path)) {
                 throw new HTTPException(418);
@@ -116,6 +130,38 @@ public class MyServiceTP implements Provider<Source> {
             }
         } catch (JAXBException e) {
             throw new HTTPException(500);
+        }
+    }
+    
+    /**
+     * Method bound to calls on /find/byName/{something}
+     */
+    private Source animalCrudFind(String method, Source source, String animal_name) throws JAXBException {
+        if("GET".equals(method)){
+        	Collection<Cage> listCages = this.center.getCages();
+            Cage cage;
+            Collection<Animal> listAnimals;
+            Iterator<Cage> it = listCages.iterator();
+            Iterator<Animal> it2;
+            while(it.hasNext()){
+            	cage = it.next();
+            	listAnimals = cage.getResidents();
+            	it2=listAnimals.iterator();
+            	while(it2.hasNext()){
+            		Animal animal= it2.next();
+            		if(animal.getName().equals(animal_name)){
+            			try {
+                            return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
+                        } catch (AnimalNotFoundException e) {
+                            throw new HTTPException(404);
+                        }
+            		}
+            	}
+            }
+            return null;
+        }       
+        else{
+            throw new HTTPException(405);
         }
     }
 
