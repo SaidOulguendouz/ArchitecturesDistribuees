@@ -84,7 +84,16 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
         printSource(result);
     }
-
+    
+    public void delete_animal_By_Id(String id) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals/"+id);
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "DELETE");
+        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
     public void printSource(Source s) {
         try {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -100,7 +109,8 @@ public class MyClient {
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
         //client.edit_animals();
         //client.delete_animals();
-        //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-446d87e200");
-        client.edit_animal_By_Id("b590c595-e559-4153-a1d2-446d87e200");
+        //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
+        //client.edit_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
+        //client.delete_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
     }
 }

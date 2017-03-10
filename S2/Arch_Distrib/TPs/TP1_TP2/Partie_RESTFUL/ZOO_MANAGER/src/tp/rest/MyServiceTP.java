@@ -156,7 +156,7 @@ public class MyServiceTP implements Provider<Source> {
             	while(it2.hasNext()){
             		Animal animal= it2.next();
             		if(animal.getId().equals(UUID.fromString(animal_id))){
-            			animal.setName("Animal Modifié");;
+            			animal.setName("Animal Modifié");
             		}
             	}
             }
@@ -168,10 +168,18 @@ public class MyServiceTP implements Provider<Source> {
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
+            Iterator<Animal> it3;
             while(it.hasNext()){
             	cage = it.next();
             	listAnimals = cage.getResidents();
-            	listAnimals.remove(listAnimals);
+            	it3 = listAnimals.iterator();
+            	while(it3.hasNext()){
+            		Animal animal= it3.next();
+            		if(animal.getId().equals(UUID.fromString(animal_id))){
+            			System.out.println("Animal supprimer i ="+ UUID.fromString(animal_id));
+            			listAnimals.remove(animal);
+            		}
+            	}
             }
             return new JAXBSource(this.jc, this.center);
         }
