@@ -106,9 +106,8 @@ public class MyServiceTP implements Provider<Source> {
                 }
             }
             else if (path.startsWith("find")) {
-            	//System.out.println("hello-0");
-            	/*****************************************/
             		String[] path_parts = path.split("/");
+            		//System.out.format("Name path: %s%n", path.substring(0, 11));
                     switch (path_parts.length){
                         case 1 :
                         	//System.out.println("hello-1");
@@ -119,7 +118,6 @@ public class MyServiceTP implements Provider<Source> {
                         default:
                             throw new HTTPException(404);
                     }
-            	/**********************************************/
                 //throw new HTTPException(503);
             }
             else if ("coffee".equals(path)) {
