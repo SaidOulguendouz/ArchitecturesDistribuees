@@ -35,6 +35,7 @@ public class MyClient {
         }
     }
 
+    /*La fonction qui permet d'ajouter un animal en tant qu'objet donné en paramètre*/
     public void add_animal(Animal animal) throws JAXBException {
         service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals");
@@ -44,7 +45,8 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc, animal));
         printSource(result);
     }
-    
+
+    /*La fonction qui permet de Modifie l'ensemble des animaux*/
     public void edit_animals() throws JAXBException{
     	service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals");
@@ -54,7 +56,8 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc,new Animal()));
         printSource(result);
     }
-    
+
+    /*La fonction qui permet de Supprime l'ensemble des animaux*/
     public void delete_animals() throws JAXBException{
     	service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals");
@@ -65,6 +68,7 @@ public class MyClient {
         printSource(result);
     }
 
+    /*La fonction qui permet de Crée l’animal identifié par {id}*/
     public void add_animal_By_Id(Animal animal, String id) throws JAXBException {
         service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals/"+id);
@@ -75,6 +79,7 @@ public class MyClient {
         printSource(result);
     }
 
+    /*La fonction qui permet de Modifie l’animal identifié par {id}*/
     public void edit_animal_By_Id(String id) throws JAXBException {
         service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals/"+id);
@@ -84,7 +89,8 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
         printSource(result);
     }
-    
+
+    /*La fonction qui permet de Supprime l’animal identifié par {id}*/
     public void delete_animal_By_Id(String id) throws JAXBException {
         service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals/"+id);
@@ -107,12 +113,25 @@ public class MyClient {
 
     public static void main(String args[]) throws Exception {
         MyClient client = new MyClient();
+        /*Ajoute un animal*/
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
+        
+        /*Modifie l'ensemble des animaux*/
         //client.edit_animals();
+        
+        /*Supprime l'ensemble des animaux*/
         //client.delete_animals();
-        client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
+        
+        /*Crée l’animal identifié par {animal_id}*/
+        //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
+        
+        /*Modifie l’animal identifié par {animal_id}*/
         //client.edit_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
+        
+        /*Supprime l’animal identifié par {animal_id}*/
         //client.delete_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
+        
+        /*Recherche d'un animal par son nom*/
        //client.find_animal_By_Name("Test22");
     }
 }

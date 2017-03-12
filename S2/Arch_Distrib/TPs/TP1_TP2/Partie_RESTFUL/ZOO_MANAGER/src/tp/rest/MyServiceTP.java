@@ -167,6 +167,7 @@ public class MyServiceTP implements Provider<Source> {
      * Method bound to calls on /animals/{something}
      */
     private Source animalCrud(String method, Source source, String animal_id) throws JAXBException {
+    	/*Retourne l’animal identifié par {animal_id}*/
         if("GET".equals(method)){
             try {
                 return new JAXBSource(this.jc, center.findAnimalById(UUID.fromString(animal_id)));
@@ -174,6 +175,7 @@ public class MyServiceTP implements Provider<Source> {
                 throw new HTTPException(404);
             }
         }
+        /*Crée l’animal identifié par {animal_id}*/
         else if("POST".equals(method)){
             Animal animal = unmarshalAnimal(source);
             animal.setId(UUID.fromString(animal_id));
@@ -186,13 +188,14 @@ public class MyServiceTP implements Provider<Source> {
                     .add(animal);
             return new JAXBSource(this.jc, this.center);
         }
+        /*Modifie l’animal identifié par {animal_id}*/
         else if("PUT".equals(method)){
            Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
-            int i=1;
+            
             while(it.hasNext()){
             	cage = it.next();
             	listAnimals = cage.getResidents();
@@ -206,7 +209,7 @@ public class MyServiceTP implements Provider<Source> {
             }
             return new JAXBSource(this.jc, this.center);
         }
-        	
+        /*Supprime l’animal identifié par {animal_id}*/	
         else if("DELETE".equals(method)){
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
