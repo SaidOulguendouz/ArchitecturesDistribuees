@@ -175,10 +175,13 @@ public class MyServiceTP implements Provider<Source> {
                 throw new HTTPException(404);
             }
         }
+        
         /*Crée l’animal identifié par {animal_id}*/
         else if("POST".equals(method)){
+        	/*On récupère les informations de l'animal depuis la source*/
             Animal animal = unmarshalAnimal(source);
             animal.setId(UUID.fromString(animal_id));
+            /*On récupère la cage de l'animal, puis on insert l'animal dans cette cage*/
             this.center.getCages()
                     .stream()
                     .filter(cage -> cage.getName().equals(animal.getCage()))
@@ -188,20 +191,26 @@ public class MyServiceTP implements Provider<Source> {
                     .add(animal);
             return new JAXBSource(this.jc, this.center);
         }
+        
         /*Modifie l’animal identifié par {animal_id}*/
         else if("PUT".equals(method)){
+        	/*Onrécupère l'ensemble des cages*/
            Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
             
+            /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
             	it2=listAnimals.iterator();
+            	/*On parcourt le collection d'animaux*/
             	while(it2.hasNext()){
             		Animal animal= it2.next();
+            		/*Si l'id animal=animal_id alors on modifie l'animal*/
             		if(animal.getId().equals(UUID.fromString(animal_id))){
             			animal.setName("Animal Modifié");
             		}
@@ -209,19 +218,26 @@ public class MyServiceTP implements Provider<Source> {
             }
             return new JAXBSource(this.jc, this.center);
         }
+        
         /*Supprime l’animal identifié par {animal_id}*/	
         else if("DELETE".equals(method)){
+        	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it3;
+            
+            /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
             	it3 = listAnimals.iterator();
+            	/*On parcourt le collection d'animaux*/
             	while(it3.hasNext()){
             		Animal animal= it3.next();
+            		/*Si l'id animal=animal_id alors on supprime l'animal*/
             		if(animal.getId().equals(UUID.fromString(animal_id))){
             			System.out.println("Animal supprimer i ="+ UUID.fromString(animal_id));
             			listAnimals.remove(animal);
