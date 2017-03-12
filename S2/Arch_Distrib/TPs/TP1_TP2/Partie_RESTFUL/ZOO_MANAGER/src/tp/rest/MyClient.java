@@ -100,6 +100,17 @@ public class MyClient {
         Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
         printSource(result);
     }
+
+    /*La fonction qui Recherche un animal par son nom*/
+    public void find_animal_By_Name(String name) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/find/byName/"+name);
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
+        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
     
     public void printSource(Source s) {
         try {
@@ -132,6 +143,6 @@ public class MyClient {
         //client.delete_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
         
         /*Recherche d'un animal par son nom*/
-       //client.find_animal_By_Name("Test22");
+       client.find_animal_By_Name("Test22");
     }
 }

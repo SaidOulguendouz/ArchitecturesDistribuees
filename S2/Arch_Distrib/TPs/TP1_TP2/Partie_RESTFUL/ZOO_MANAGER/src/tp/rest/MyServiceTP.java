@@ -111,7 +111,7 @@ public class MyServiceTP implements Provider<Source> {
                         case 3 :
                         	switch (path_parts[1]){
                         		case "byName" :
-                                    return this.animalFindbyName(method, source, path_parts[2]);
+                                    return this.animalFindByName(method, source, path_parts[2]);
                         		case "at" :
 
                         		case "near" :
@@ -298,19 +298,25 @@ public class MyServiceTP implements Provider<Source> {
     /**
      * Method bound to calls on /find/byName/{something}
      */
-    private Source animalFindbyName(String method, Source source, String animal_name) throws JAXBException {
+    private Source animalFindByName(String method, Source source, String animal_name) throws JAXBException {
         if("GET".equals(method)){
+        	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
+            
+            /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
             	it2=listAnimals.iterator();
+            	/*On parcourt le collection d'animaux*/
             	while(it2.hasNext()){
             		Animal animal= it2.next();
+            		/*Si le nom de l'animal=animal_name alors on retourne l'animal*/
             		if(animal.getName().equals(animal_name)){
             			try {
                             return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
