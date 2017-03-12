@@ -107,14 +107,18 @@ public class MyServiceTP implements Provider<Source> {
             }
             else if (path.startsWith("find")) {
             		String[] path_parts = path.split("/");
-            		//System.out.format("Name path: %s%n", path.substring(0, 11));
                     switch (path_parts.length){
-                        case 1 :
-                        	//System.out.println("hello-1");
-                        	return this.animalsCrud(method, source);
-                        case 2 :
-                        	//System.out.println("hello-2");
-                            return this.animalCrudFind(method, source, path_parts[1]);
+                        case 3 :
+                        	switch (path_parts[1]){
+                        		case "byName" :
+                                    return this.animalFindbyName(method, source, path_parts[2]);
+                        		case "at" :
+
+                        		case "near" :
+                        			
+                        		default :
+                        			throw new HTTPException(404);
+                        	}
                         default:
                             throw new HTTPException(404);
                     }
@@ -128,38 +132,6 @@ public class MyServiceTP implements Provider<Source> {
             }
         } catch (JAXBException e) {
             throw new HTTPException(500);
-        }
-    }
-    
-    /**
-     * Method bound to calls on /find/byName/{something}
-     */
-    private Source animalCrudFind(String method, Source source, String animal_name) throws JAXBException {
-        if("GET".equals(method)){
-        	Collection<Cage> listCages = this.center.getCages();
-            Cage cage;
-            Collection<Animal> listAnimals;
-            Iterator<Cage> it = listCages.iterator();
-            Iterator<Animal> it2;
-            while(it.hasNext()){
-            	cage = it.next();
-            	listAnimals = cage.getResidents();
-            	it2=listAnimals.iterator();
-            	while(it2.hasNext()){
-            		Animal animal= it2.next();
-            		if(animal.getName().equals(animal_name)){
-            			try {
-                            return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
-                        } catch (AnimalNotFoundException e) {
-                            throw new HTTPException(404);
-                        }
-            		}
-            	}
-            }
-            return null;
-        }       
-        else{
-            throw new HTTPException(405);
         }
     }
 
@@ -255,9 +227,12 @@ public class MyServiceTP implements Provider<Source> {
      * Method bound to calls on /animals
      */
     private Source animalsCrud(String method, Source source) throws JAXBException {
+    	/*Retourne l'ensemble des animaux du centre*/
         if("GET".equals(method)){
             return new JAXBSource(this.jc, this.center);
         }
+        
+        /*Ajoute un animal dans un centre*/
         else if("POST".equals(method)){
             Animal animal = unmarshalAnimal(source);
             this.center.getCages()
@@ -269,18 +244,26 @@ public class MyServiceTP implements Provider<Source> {
                     .add(animal);
             return new JAXBSource(this.jc, this.center);
         }
+        
+        /*Modifie l'ensemble des animaux*/
         else if("PUT".equals(method)){
+        	/*Onrécupère l'ensemble des cages*/
            Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
             int i=1;
+            
+            /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
             	it2=listAnimals.iterator();
+            	/*On parcourt le collection d'animaux*/
             	while(it2.hasNext()){
+            		/*On modifie chaque animal*/
             		it2.next().setName("Animale"+i);
             		i++;
             	}
@@ -288,14 +271,20 @@ public class MyServiceTP implements Provider<Source> {
             return new JAXBSource(this.jc, this.center);
         }
         	
+        /*Supprime l'ensemble des animaux*/
         else if("DELETE".equals(method)){
+        	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
+            
+            /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
+            	/*On supprime tous les animaux de la cage*/
             	listAnimals.remove(listAnimals);
             }
             return new JAXBSource(this.jc, this.center);
@@ -304,6 +293,38 @@ public class MyServiceTP implements Provider<Source> {
         	throw new HTTPException(405);
         }
         	
+    }
+    
+    /**
+     * Method bound to calls on /find/byName/{something}
+     */
+    private Source animalFindbyName(String method, Source source, String animal_name) throws JAXBException {
+        if("GET".equals(method)){
+        	Collection<Cage> listCages = this.center.getCages();
+            Cage cage;
+            Collection<Animal> listAnimals;
+            Iterator<Cage> it = listCages.iterator();
+            Iterator<Animal> it2;
+            while(it.hasNext()){
+            	cage = it.next();
+            	listAnimals = cage.getResidents();
+            	it2=listAnimals.iterator();
+            	while(it2.hasNext()){
+            		Animal animal= it2.next();
+            		if(animal.getName().equals(animal_name)){
+            			try {
+                            return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
+                        } catch (AnimalNotFoundException e) {
+                            throw new HTTPException(404);
+                        }
+            		}
+            	}
+            }
+            return null;
+        }       
+        else{
+            throw new HTTPException(405);
+        }
     }
 
     private Animal unmarshalAnimal(Source source) throws JAXBException {
