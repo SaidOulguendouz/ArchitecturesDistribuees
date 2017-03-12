@@ -344,12 +344,8 @@ public class MyServiceTP implements Provider<Source> {
         	/*On récupère la Latitude et la Longitude depuis le paramètre String : position
         	 * La Latitude et la Longitude sont séparées pas ";"*/
             String[] posLatLong = position.split(";");
-            double a= Double.parseDouble(posLatLong[0]);
-            double b= Double.parseDouble(posLatLong[1]);
-            /*p est la position qui correspond au cas : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
-            Position p= new Position(a, b);
-            /*p2 est la position qui correspond au cas : posLatLong[0]=Longitude et posLatLong[1]=Latitude*/
-            Position p2= new Position(b, a);
+            /*p est la position qui correspond aux coordonnées : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
+            Position p= new Position(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]));
         	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
@@ -362,7 +358,7 @@ public class MyServiceTP implements Provider<Source> {
             while(it.hasNext()){
             	cage = it.next();
             	/*Si la position de la cage correspond à la position rechrchée alors on retourne l'animal de cette cage*/
-            	if((cage.getPosition().equals(p))||(cage.getPosition().equals(p2))){
+            	if(cage.getPosition().equals(p)){
             		/*On récupère l'ensemle des animaux de la cage*/
                 	listAnimals = cage.getResidents();
                 	it2=listAnimals.iterator();
@@ -393,12 +389,8 @@ public class MyServiceTP implements Provider<Source> {
         	/*On récupère la Latitude et la Longitude depuis le paramètre String : position
         	 * La Latitude et la Longitude sont séparées pas ";"*/
             String[] posLatLong = position.split(";");
-            double a= Double.parseDouble(posLatLong[0]);
-            double b= Double.parseDouble(posLatLong[1]);
-            /*p est la position qui correspond au cas : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
-            Position p= new Position(a, b);
-            /*p2 est la position qui correspond au cas : posLatLong[0]=Longitude et posLatLong[1]=Latitude*/
-            Position p2= new Position(b, a);
+            /*p est la position qui correspond aux coordonnées : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
+            Position p= new Position(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]));
         	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage, cageNear=null;
@@ -406,8 +398,8 @@ public class MyServiceTP implements Provider<Source> {
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
             Animal animal;
-            /*Les varibles pour calculer la déférrence entre les positions*/
-            double deffLat, deffLong, deffLat2, deffLong2, deffLatNear, deffLongNear;
+            /*Les varibles pour calculer les distances entre les positions*/
+            double distance, distanceNear;
             
             /*On parcourt le collection de cages*/
             while(it.hasNext()){
@@ -416,18 +408,13 @@ public class MyServiceTP implements Provider<Source> {
                		cageNear=cage;
               	}else{
               		/*La distance entre la cage actuelle et la position donnée*/
-              		deffLat= Math.abs(cage.getPosition().getLatitude()-p.getLatitude());
-             		deffLong= Math.abs(cage.getPosition().getLongitude()-p.getLongitude());
-             			
-             		deffLat2= Math.abs(cage.getPosition().getLatitude()-p2.getLatitude());
-              		deffLong2= Math.abs(cage.getPosition().getLongitude()-p2.getLongitude());
+              		distance= Math.abs(Math.pow(cage.getPosition().getLatitude()-p.getLatitude(), 2)+Math.pow(cage.getPosition().getLongitude()-p.getLongitude(), 2));
 
               		/*La distance entre la cage suavgardée et la position donnée*/
-              		deffLatNear= Math.abs(cage.getPosition().getLatitude()-cageNear.getPosition().getLatitude());
-               		deffLongNear= Math.abs(cage.getPosition().getLongitude()-cageNear.getPosition().getLongitude());
+              		distanceNear= Math.abs(Math.pow(cageNear.getPosition().getLatitude()-p.getLatitude(), 2)+Math.pow(cageNear.getPosition().getLongitude()-p.getLongitude(), 2));
+              		
                		/*Si la cage ectuelle est plus proche de la position donnée, alors on sauvgarde cette cage*/
-              		if(((deffLat<deffLatNear)||(deffLong<deffLongNear))
-              				||((deffLat2<deffLatNear)||(deffLong2<deffLongNear))){
+              		if(distance<distanceNear){
               			cageNear=cage;
                		}
                	}

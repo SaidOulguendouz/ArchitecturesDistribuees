@@ -171,6 +171,6 @@ public class MyClient {
        //client.find_animal_By_Position("49.305142d;1.2154067d");
        
        /*Recherche d'un animal près d’une position*/
-      client.find_animal_Near_Position("49.305d;1.2157357d");
+      client.find_animal_Near_Position("49.305d;1.2155357d");
     }
 }
