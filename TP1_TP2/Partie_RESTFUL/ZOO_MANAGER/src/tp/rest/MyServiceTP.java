@@ -101,6 +101,8 @@ public class MyServiceTP implements Provider<Source> {
                         return this.animalsCrud(method, source);
                     case 2 :
                         return this.animalCrud(method, source, path_parts[1]);
+                    case 3 :
+                    	return this.animalInfoWolfram(method, source, path_parts[1]);
                     default:
                         throw new HTTPException(404);
                 }
@@ -438,7 +440,29 @@ public class MyServiceTP implements Provider<Source> {
         }
         return null;
     }
-    
+
+    /**
+     * Method bound to calls on /animals/{animal_id}/wolf
+     */
+    private Source animalInfoWolfram(String method, Source source, String animal_id) throws JAXBException {
+    	/*Récupération des info. Wolfram d’un animal identifié par {animal_id}*/
+        if("GET".equals(method)){
+            try {
+            	Animal animal= center.findAnimalById(UUID.fromString(animal_id));
+                System.out.println("Animal trouvé :");
+               	System.out.println("                 -> Nom : "+animal.getName());
+               	System.out.println("                 -> Cage : "+animal.getCage());
+               	System.out.println("                 -> Species : "+animal.getSpecies());
+                return new JAXBSource(this.jc, animal);
+            } catch (AnimalNotFoundException e) {
+        		System.out.println("--> Cet animal n'existe pas!");
+                throw new HTTPException(404);
+            }
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
     private Animal unmarshalAnimal(Source source) throws JAXBException {
         return (Animal) this.jc.createUnmarshaller().unmarshal(source);
     }
