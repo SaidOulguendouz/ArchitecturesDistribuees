@@ -112,12 +112,21 @@ public class MyClient {
         printSource(result);
     }
     
-
-
     /*La fonction qui Recherche un animal par position*/
     public void find_animal_By_Position(String position) throws JAXBException {
         service = Service.create(qname);
         service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/find/at/"+position);
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
+        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
+    
+    /*La fonction qui Recherche un animal près d’une position*/
+    public void find_animal_Near_Position(String position) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/find/near/"+position);
         Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
         Map<String, Object> requestContext = dispatcher.getRequestContext();
         requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
@@ -159,6 +168,9 @@ public class MyClient {
        //client.find_animal_By_Name("Test22");
         
         /*Recherche d'un animal par position*/
-       client.find_animal_By_Position("49.305142d;1.2154067d");
+       //client.find_animal_By_Position("49.305142d;1.2154067d");
+       
+       /*Recherche d'un animal près d’une position*/
+      client.find_animal_Near_Position("49.305d;1.2157357d");
     }
 }

@@ -370,6 +370,7 @@ public class MyServiceTP implements Provider<Source> {
                 	while(it2.hasNext()){
                 		animal= it2.next();
                 			try {
+                				/*On retourne l'animal à la position donnée*/
                                 return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
                             } catch (AnimalNotFoundException e) {
                                 throw new HTTPException(404);
@@ -400,36 +401,55 @@ public class MyServiceTP implements Provider<Source> {
             Position p2= new Position(b, a);
         	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
-            Cage cage;
+            Cage cage, cageNear=null;
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
             Animal animal;
+            /*Les varibles pour calculer la déférrence entre les positions*/
+            double deffLat, deffLong, deffLat2, deffLong2, deffLatNear, deffLongNear;
             
             /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
-            	/*Si la position de la cage correspond à la position rechrchée alors on retourne l'animal de cette cage*/
-            	if((cage.getPosition().equals(p))||(cage.getPosition().equals(p2))){
-            		/*On récupère l'ensemle des animaux de la cage*/
-                	listAnimals = cage.getResidents();
-                	it2=listAnimals.iterator();
-                	/*On parcourt le collection d'animaux*/
-                	while(it2.hasNext()){
-                		animal= it2.next();
-                			try {
-                                return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
-                            } catch (AnimalNotFoundException e) {
-                                throw new HTTPException(404);
-                            }
-                	}
-            	}
+                if(cageNear==null){
+               		cageNear=cage;
+              	}else{
+              		/*La distance entre la cage actuelle et la position donnée*/
+              		deffLat= Math.abs(cage.getPosition().getLatitude()-p.getLatitude());
+             		deffLong= Math.abs(cage.getPosition().getLongitude()-p.getLongitude());
+             			
+             		deffLat2= Math.abs(cage.getPosition().getLatitude()-p2.getLatitude());
+              		deffLong2= Math.abs(cage.getPosition().getLongitude()-p2.getLongitude());
+
+              		/*La distance entre la cage suavgardée et la position donnée*/
+              		deffLatNear= Math.abs(cage.getPosition().getLatitude()-cageNear.getPosition().getLatitude());
+               		deffLongNear= Math.abs(cage.getPosition().getLongitude()-cageNear.getPosition().getLongitude());
+               		/*Si la cage ectuelle est plus proche de la position donnée, alors on sauvgarde cette cage*/
+              		if(((deffLat<deffLatNear)||(deffLong<deffLongNear))
+              				||((deffLat2<deffLatNear)||(deffLong2<deffLongNear))){
+              			cageNear=cage;
+               		}
+               	}
             }
-            return null;
+            /*On récupère l'ensemle des animaux de la cage la plus proche de la position donnée*/
+        	listAnimals = cageNear.getResidents();
+        	it2=listAnimals.iterator();
+        	/*On parcourt le collection d'animaux*/
+        	while(it2.hasNext()){
+        		animal= it2.next();
+        			try {
+        				/*On retourne l'animal le plus proche de la position donnée*/
+                        return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
+                    } catch (AnimalNotFoundException e) {
+                        throw new HTTPException(404);
+                    }
+        	}
         }       
         else{
             throw new HTTPException(405);
         }
+        return null;
     }
     
     private Animal unmarshalAnimal(Source source) throws JAXBException {
