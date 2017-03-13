@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
@@ -20,6 +21,14 @@ import javax.xml.ws.WebServiceProvider;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.http.HTTPBinding;
 import javax.xml.ws.http.HTTPException;
+
+import com.graphhopper.GHRequest;
+import com.graphhopper.GHResponse;
+import com.graphhopper.GraphHopper;
+import com.graphhopper.PathWrapper;
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.util.shapes.GHPoint;
 
 import tp.model.Animal;
 import tp.model.AnimalNotFoundException;
@@ -125,6 +134,15 @@ public class MyServiceTP implements Provider<Source> {
                             throw new HTTPException(404);
                     }
                 //throw new HTTPException(503);
+            }
+            else if(path.startsWith("center")){
+            	String[] path_parts = path.split("/");
+                switch (path_parts.length){
+                    case 4 :
+                    	return this.infosTrjet(method, source, path_parts[3]);
+                    default:
+                        throw new HTTPException(404);
+                }	
             }
             else if ("coffee".equals(path)) {
                 throw new HTTPException(418);
@@ -441,6 +459,68 @@ public class MyServiceTP implements Provider<Source> {
         return null;
     }
 
+    /**
+     * Method bound to calls on /center/journey/from/{position}
+     */
+    private Source infosTrjet(String method, Source source, String position) throws JAXBException {
+        if("GET".equals(method)){
+        	/*
+        	//Position de notre centre
+        	GHPoint a = new GHPoint(this.center.getPosition().getLatitude()	,this.center.getPosition().getLongitude());
+        	
+            //p est la position qui correspond aux coordonnées : posLatLong[0]=Latitude et posLatLong[1]=Longitude
+        	GHPoint b = new GHPoint(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]));
+            
+            GraphHopper hopper = new GraphHopper().forDesktop();
+            hopper.setInMemory();
+            hopper.setDataReaderFile("dataFile.txt");
+            hopper.setGraphHopperLocation("data");
+            hopper.setEncodingManager(new EncodingManager("car"));
+            
+            hopper.importOrLoad();
+            
+            GHRequest req = new GHRequest(a,b);
+    		GHResponse rsp = hopper.route(req);
+    		for(Throwable thr : rsp.getErrors()){
+    			System.out.println(thr);
+    		}*/
+        	
+        	// create one GraphHopper instance
+        	GraphHopper hopper = new GraphHopperOSM().forServer();
+        	
+        	// where to store graphhopper files?
+        	hopper.setDataReaderFile("dataFile.osm");
+        	hopper.setGraphHopperLocation("data");
+        	hopper.setEncodingManager(new EncodingManager("car"));
+
+        	// now this can take minutes if it imports or a few seconds for loading
+        	// of course this is dependent on the imported area
+        	hopper.importOrLoad();
+
+
+        	//URL Position
+        	String[] posLatLong = position.split(";");
+        	
+        	GHRequest req = new GHRequest(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]), this.center.getPosition().getLatitude()	,this.center.getPosition().getLongitude()).
+        	    setWeighting("fastest").
+        	    setVehicle("car").
+        	    setLocale(Locale.US);
+        	GHResponse rsp = hopper.route(req);
+
+        	// first check for errors
+        	if(rsp.hasErrors()) {
+        	   System.out.println(rsp.hasErrors());
+        	}
+    		PathWrapper path = rsp.getBest();
+    		
+    		System.out.println("-> Distance = " + path.getDistance());
+    		System.out.println("-> Temps = " + path.getTime());
+        }       
+        else{
+            throw new HTTPException(405);
+        }
+        return null;
+    }
     /**
      * Method bound to calls on /animals/{animal_id}/wolf
      */

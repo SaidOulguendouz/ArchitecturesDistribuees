@@ -145,6 +145,17 @@ public class MyClient {
         printSource(result);
     }
     
+    /*La fonction qui Récupère des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper*/
+    public void animal_Infos_Trajet(String position) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/center/journey/from/"+position);
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
+        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
+    
     public void printSource(Source s) {
         try {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -185,6 +196,9 @@ public class MyClient {
       //client.find_animal_Near_Position("49.305d;1.2155357d");
         
         /*Récupération des info. Wolfram d’un animal*/
-       client.animal_Infos_Wolfram("b580c595-e559-4153-a1d2-00446d87e200");
+       //client.animal_Infos_Wolfram("b580c595-e559-4153-a1d2-00446d87e200");
+        
+        /*Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper*/
+       client.animal_Infos_Trajet("40.305d;1.0155357d");
     }
 }
