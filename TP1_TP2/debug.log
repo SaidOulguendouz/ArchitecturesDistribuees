@@ -1,3 +1,6 @@
 [0313/113221.739:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files\Cansuck\settings.dat: Accès refusé. (0x5)
 [0313/113221.739:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
 [0313/113221.739:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files\Cansuck\settings.dat: Accès refusé. (0x5)
+[0314/202519.380:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files\Cansuck\settings.dat: Accès refusé. (0x5)
+[0314/202519.380:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0314/202519.396:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files\Cansuck\settings.dat: Accès refusé. (0x5)

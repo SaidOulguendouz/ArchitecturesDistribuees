@@ -183,7 +183,7 @@ public class MyClient {
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
         
         /*Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal*/
-        client.edit_animals();
+        //client.edit_animals();
         
         /*Supprime l'ensemble des animaux*/
         //client.delete_animals();
@@ -212,48 +212,70 @@ public class MyClient {
         /*Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper*/
        //client.animal_Infos_Trajet("40.305d;1.0155357d");
         
+        /*****************************************************************************************************/
         /********************************************** Scénario *********************************************/
         //Affichez l'ensemble des animaux
         //client.get_animals();
+        
         //• Supprimez touts les animaux
         //client.delete_animals();
+        
         //• Affichez l'ensemble des animaux
         //client.get_animals();
+        
         //• Ajoutez un Panda à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
+        client.add_animal(new Animal("Panda", "Cage de Rouen", "Rouen", UUID.randomUUID()));
         
         //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Affichez tous les animaux
+        client.get_animals();
         
         //• Modifiez l'ensemble des animaux par un Lagotriche à queue jaune à Rouen (Latitude :49.443889 ; Longitude : 1.103333)
+        client.edit_animals();
         
         //• Affichez tous les animaux
+        client.get_animals();
         
         //• Ajoutez une Océanite de Matsudaira en Somalie (Latitude : 2.333333 ; Longitude : 48.85)
+        client.add_animal(new Animal("Océanite de Matsudaira", "Cage de Somalie", "Somalie", UUID.randomUUID()));
         
         //• Ajoutez un Ara de Spix à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
+        client.add_animal(new Animal("Ara de Spix", "Cage de Rouen", "Rouen", UUID.randomUUID()));
         
         //• Ajoutez un Galago de Rondo à Bihorel (Latitude : 49.455278 ; Longitude : 1.116944)
+        client.add_animal(new Animal("Galago de Rondo", "Cage de Bihorel", "Bihorel", UUID.randomUUID()));
         
         //• Ajoutez une Palette des Sulu à Londres (Latitude : 51.504872 ; Longitude : ­0.07857)
+        client.add_animal(new Animal("Palette des Sulu", "Cage de Londres", "Londres", UUID.randomUUID()));
         
         //• Ajoutez un Kouprey à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        client.add_animal(new Animal("Kouprey", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Ajoutez un Tuit­tuit à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        client.add_animal(new Animal("Tuit­tuit", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Ajoutez une Saïga au Canada (Latitude : 43.2 ; Longitude : ­80.38333)
+        client.add_animal(new Animal("Saïga", "Cage de Canada", "Canada", UUID.randomUUID()));
         
         //• Ajoutez un Inca de Bonaparte à Porto­Vecchio (Latitude : 41.5895241 ; Longitude : 9.2627)
+        client.add_animal(new Animal("Inca de Bonaparte", "Cage de Porto­Vecchio", "Porto­Vecchio", UUID.randomUUID()));
         
         //• Affichez l'ensemble des animaux
+        client.get_animals();
         
         //• Ajoutez un Râle de Zapata à Montreux (Latitude : 46.4307133; Longitude : 6.9113575)
+        client.add_animal(new Animal("Râle de Zapata", "Cage de Montreux", "Montreux", UUID.randomUUID()));
         
         //• Ajoutez un Rhinocéros de Java à Villers­Bocage (Latitude : 50.0218 ; Longitude : 2.3261)
+        client.add_animal(new Animal("Rhinocéros de Java", "Cage de Villers­Bocage", "Villers­Bocage", UUID.randomUUID()));
         
         //• Ajoutez 101 Dalmatiens dans une cage aux USA
+        client.add_animal(new Animal("101 Dalmatiens", "usa", "Chipmunk", UUID.randomUUID()));
         
         //• Affichez l'ensemble des animaux
+        client.get_animals();
         
         //• Supprimez tous les animaux de Paris
         
