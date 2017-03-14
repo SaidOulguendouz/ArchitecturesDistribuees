@@ -307,7 +307,7 @@ public class MyServiceTP implements Provider<Source> {
             	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
             	/*On supprime tous les animaux de la cage*/
-            	listAnimals.remove(listAnimals);
+            	listAnimals.clear();
             }
             return new JAXBSource(this.jc, this.center);
         }

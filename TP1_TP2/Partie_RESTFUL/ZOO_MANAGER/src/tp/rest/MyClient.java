@@ -35,6 +35,17 @@ public class MyClient {
         }
     }
 
+    /*La fonction qui permet d'afficher l'ensemble des animaux*/
+    public void get_animals() throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animals");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
+        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
+
     /*La fonction qui permet d'ajouter un animal en tant qu'objet donné en paramètre*/
     public void add_animal(Animal animal) throws JAXBException {
         service = Service.create(qname);
@@ -175,7 +186,7 @@ public class MyClient {
         //client.edit_animals();
         
         /*Supprime l'ensemble des animaux*/
-        //client.delete_animals();
+        client.delete_animals();
         
         /*Crée l’animal identifié par {animal_id}*/
         //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
@@ -199,6 +210,77 @@ public class MyClient {
        //client.animal_Infos_Wolfram("b580c595-e559-4153-a1d2-00446d87e200");
         
         /*Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper*/
-       client.animal_Infos_Trajet("40.305d;1.0155357d");
+       //client.animal_Infos_Trajet("40.305d;1.0155357d");
+        
+        /********************************************** Scénario *********************************************/
+        //Affichez l'ensemble des animaux
+        //client.get_animals();
+        //• Supprimez touts les animaux
+        //client.delete_animals();
+        //• Affichez l'ensemble des animaux
+        //client.get_animals();
+        //• Ajoutez un Panda à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
+        
+        //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        
+        //• Affichez tous les animaux
+        
+        //• Modifiez l'ensemble des animaux par un Lagotriche à queue jaune à Rouen (Latitude :49.443889 ; Longitude : 1.103333)
+        
+        //• Affichez tous les animaux
+        
+        //• Ajoutez une Océanite de Matsudaira en Somalie (Latitude : 2.333333 ; Longitude : 48.85)
+        
+        //• Ajoutez un Ara de Spix à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
+        
+        //• Ajoutez un Galago de Rondo à Bihorel (Latitude : 49.455278 ; Longitude : 1.116944)
+        
+        //• Ajoutez une Palette des Sulu à Londres (Latitude : 51.504872 ; Longitude : ­0.07857)
+        
+        //• Ajoutez un Kouprey à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        
+        //• Ajoutez un Tuit­tuit à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        
+        //• Ajoutez une Saïga au Canada (Latitude : 43.2 ; Longitude : ­80.38333)
+        
+        //• Ajoutez un Inca de Bonaparte à Porto­Vecchio (Latitude : 41.5895241 ; Longitude : 9.2627)
+        
+        //• Affichez l'ensemble des animaux
+        
+        //• Ajoutez un Râle de Zapata à Montreux (Latitude : 46.4307133; Longitude : 6.9113575)
+        
+        //• Ajoutez un Rhinocéros de Java à Villers­Bocage (Latitude : 50.0218 ; Longitude : 2.3261)
+        
+        //• Ajoutez 101 Dalmatiens dans une cage aux USA
+        
+        //• Affichez l'ensemble des animaux
+        
+        //• Supprimez tous les animaux de Paris
+        
+        //• Affichez l'ensemble des animaux
+        
+        //• Recherchez le Galago de Rondo
+        
+        //• Supprimez le Galago de Rondo
+        
+        //• Supprimez à nouveau le Galago de Rondo
+        
+        //• Affichez l'ensemble des animaux
+        
+        //• Affichez les animaux située près de Rouen
+        //• Affichez les animaux à Rouen
+        
+        //• Affichez les informations Wolfram Alpha du Saïga
+        
+        //• Affichez les informations Wolfram Alpha de l'Ara de Spix
+        
+        //• Affichez le trajet jusqu'au centre de Somalie
+        
+        //• Affichez le trajet jusqu'au centre de Londres
+        
+        //• Supprimez tous les animaux
+        
+        //• Affichez l'ensemble des animaux
+        
     }
 }
