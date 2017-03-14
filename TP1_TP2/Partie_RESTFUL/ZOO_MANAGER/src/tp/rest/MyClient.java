@@ -182,11 +182,11 @@ public class MyClient {
         /*Ajoute un animal*/
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
         
-        /*Modifie l'ensemble des animaux*/
-        //client.edit_animals();
+        /*Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal*/
+        client.edit_animals();
         
         /*Supprime l'ensemble des animaux*/
-        client.delete_animals();
+        //client.delete_animals();
         
         /*Crée l’animal identifié par {animal_id}*/
         //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");

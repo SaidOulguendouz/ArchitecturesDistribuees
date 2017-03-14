@@ -275,19 +275,18 @@ public class MyServiceTP implements Provider<Source> {
             Collection<Animal> listAnimals;
             Iterator<Cage> it = listCages.iterator();
             Iterator<Animal> it2;
-            int i=1;
+            //int i=1;
             
             /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
             	/*On récupère l'ensemle des animaux de la cage*/
             	listAnimals = cage.getResidents();
-            	it2=listAnimals.iterator();
+            	
             	/*On parcourt le collection d'animaux*/
-            	while(it2.hasNext()){
-            		/*On modifie chaque animal*/
-            		it2.next().setName("Animale"+i);
-            		i++;
+            	for(Animal animal : listAnimals){
+            		//On modifie chaque animal
+            		animal.setName(animal.getName()+" Modifié");
             	}
             }
             return new JAXBSource(this.jc, this.center);
