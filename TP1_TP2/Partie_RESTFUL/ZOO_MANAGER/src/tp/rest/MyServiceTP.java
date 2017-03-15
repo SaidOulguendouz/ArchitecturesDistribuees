@@ -66,68 +66,23 @@ public class MyServiceTP implements Provider<Source> {
         }
 
         // Fill our center with some animals
-        /*Cage rouen = new Cage(
-                "Cage de Rouen",
-                new Position( 49.443889, 1.103333),
-                20,
-                new LinkedList<>()
-        );
+        Cage rouen = new Cage("Cage de Rouen",new Position( 49.443889, 1.103333),20,new LinkedList<>());
         
-        Cage paris = new Cage(
-                "Cage de Paris",
-                new Position( 48.856578 , 2.351828),
-                30,
-                new LinkedList<>()
-        );
+        Cage paris = new Cage("Cage de Paris",new Position( 48.856578 , 2.351828),30,new LinkedList<>());
         
-        Cage somalie = new Cage(
-                "Cage de Somalie",
-                new Position(  2.333333  , 48.85),
-                26,
-                new LinkedList<>()
-        );
+        Cage somalie = new Cage("Cage de Somalie",new Position(  2.333333  , 48.85),26,new LinkedList<>());
         
-        Cage bihorel = new Cage(
-                "Cage de Bihorel",
-                new Position(   49.455278  , 1.116944),
-                18,
-                new LinkedList<>()
-        );
+        Cage bihorel = new Cage("Cage de Bihorel",new Position(   49.455278  , 1.116944),18,new LinkedList<>());
         
-        Cage londres = new Cage(
-                "Cage de Londres",
-                new Position(  51.504872  ,  -0.07857),
-                35,
-                new LinkedList<>()
-        );
+        Cage londres = new Cage("Cage de Londres",new Position(  51.504872  ,  -0.07857),35,new LinkedList<>());
         
-        Cage canada = new Cage(
-                "Cage de Canada",
-                new Position(  43.2  ,  -80.38333),
-                45,
-                new LinkedList<>()
-        );
+        Cage canada = new Cage("Cage de Canada",new Position(  43.2  ,  -80.38333),45,new LinkedList<>());
         
-        Cage porto_Vecchio = new Cage(
-                "Cage de Porto­Vecchio",
-                new Position(  41.5895241 , 9.2627),
-                28,
-                new LinkedList<>()
-        );
+        Cage porto_Vecchio = new Cage("Cage de Porto­Vecchio",new Position(  41.5895241 , 9.2627),28,new LinkedList<>());
         
-        Cage montreux = new Cage(
-                "Cage de Montreux",
-                new Position(  46.4307133 , 6.9113575),
-                34,
-                new LinkedList<>()
-        );
+        Cage montreux = new Cage("Cage de Montreux",new Position(  46.4307133 , 6.9113575),34,new LinkedList<>());
         
-        Cage villers_Bocage = new Cage(
-                "Cage de Villers­Bocage",
-                new Position(  50.0218 , 2.3261),
-                23,
-                new LinkedList<>()
-        );*/
+        Cage villers_Bocage = new Cage("Cage de Villers­Bocage",new Position(  50.0218 , 2.3261),23, new LinkedList<>());
         
         Cage usa = new Cage(
                 "usa",
@@ -151,7 +106,7 @@ public class MyServiceTP implements Provider<Source> {
                 ))
         );
 
-        center.getCages().addAll(Arrays.asList(usa, amazon/*rouen, paris, somalie, bihorel, londres, canada, porto_Vecchio, montreux, villers_Bocage*/));
+        center.getCages().addAll(Arrays.asList(usa, amazon, rouen, paris, somalie, bihorel, londres, canada, porto_Vecchio, montreux, villers_Bocage));
     }
 
     public Source invoke(Source source) {

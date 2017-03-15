@@ -256,9 +256,11 @@ public class MyClient {
         //client.get_animals();
         
         //• Ajoutez un Panda à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
-        /*client.add_animal(new Animal("Panda", "Cage de Rouen", "Rouen", UUID.randomUUID()));
+        //client.add_cage(new Cage("Cage de Rouen",new Position( 49.443889, 1.103333),20,new LinkedList<>()));
+        client.add_animal(new Animal("Panda", "Cage de Rouen", "Rouen", UUID.randomUUID()));
         
         //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
+        //client.add_cage(new Cage("Cage de Paris",new Position( 48.856578 , 2.351828),30,new LinkedList<>()));
         client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Affichez tous les animaux
@@ -271,15 +273,18 @@ public class MyClient {
         client.get_animals();
         
         //• Ajoutez une Océanite de Matsudaira en Somalie (Latitude : 2.333333 ; Longitude : 48.85)
+        //client.add_cage(new Cage("Cage de Somalie",new Position(  2.333333  , 48.85),26,new LinkedList<>()));
         client.add_animal(new Animal("Océanite de Matsudaira", "Cage de Somalie", "Somalie", UUID.randomUUID()));
         
         //• Ajoutez un Ara de Spix à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
         client.add_animal(new Animal("Ara de Spix", "Cage de Rouen", "Rouen", UUID.randomUUID()));
         
         //• Ajoutez un Galago de Rondo à Bihorel (Latitude : 49.455278 ; Longitude : 1.116944)
+        //client.add_cage(new Cage("Cage de Bihorel",new Position(   49.455278  , 1.116944),18,new LinkedList<>()));
         client.add_animal(new Animal("Galago de Rondo", "Cage de Bihorel", "Bihorel", UUID.randomUUID()));
         
         //• Ajoutez une Palette des Sulu à Londres (Latitude : 51.504872 ; Longitude : ­0.07857)
+        //client.add_cage(new Cage("Cage de Londres",new Position(  51.504872  ,  -0.07857),35,new LinkedList<>()));
         client.add_animal(new Animal("Palette des Sulu", "Cage de Londres", "Londres", UUID.randomUUID()));
         
         //• Ajoutez un Kouprey à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
@@ -289,25 +294,29 @@ public class MyClient {
         client.add_animal(new Animal("Tuit­tuit", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Ajoutez une Saïga au Canada (Latitude : 43.2 ; Longitude : ­80.38333)
+        //client.add_cage(new Cage("Cage de Canada",new Position(  43.2  ,  -80.38333),45,new LinkedList<>()));
         client.add_animal(new Animal("Saïga", "Cage de Canada", "Canada", UUID.randomUUID()));
         
         //• Ajoutez un Inca de Bonaparte à Porto­Vecchio (Latitude : 41.5895241 ; Longitude : 9.2627)
+        //client.add_cage(new Cage("Cage de Porto­Vecchio",new Position(  41.5895241 , 9.2627),28,new LinkedList<>()));
         client.add_animal(new Animal("Inca de Bonaparte", "Cage de Porto­Vecchio", "Porto­Vecchio", UUID.randomUUID()));
         
         //• Affichez l'ensemble des animaux
         client.get_animals();
         
         //• Ajoutez un Râle de Zapata à Montreux (Latitude : 46.4307133; Longitude : 6.9113575)
+        //client.add_cage(new Cage("Cage de Montreux",new Position(  46.4307133 , 6.9113575),34,new LinkedList<>()));
         client.add_animal(new Animal("Râle de Zapata", "Cage de Montreux", "Montreux", UUID.randomUUID()));
         
         //• Ajoutez un Rhinocéros de Java à Villers­Bocage (Latitude : 50.0218 ; Longitude : 2.3261)
+        //client.add_cage(new Cage("Cage de Villers­Bocage",new Position(  50.0218 , 2.3261),23, new LinkedList<>()));
         client.add_animal(new Animal("Rhinocéros de Java", "Cage de Villers­Bocage", "Villers­Bocage", UUID.randomUUID()));
         
         //• Ajoutez 101 Dalmatiens dans une cage aux USA
         client.add_animal(new Animal("101 Dalmatiens", "usa", "Chipmunk", UUID.randomUUID()));
         
         //• Affichez l'ensemble des animaux
-        client.get_animals();*/
+        client.get_animals();
         
         //• Supprimez tous les animaux de Paris
         
@@ -322,6 +331,7 @@ public class MyClient {
         //• Affichez l'ensemble des animaux
         
         //• Affichez les animaux située près de Rouen
+        
         //• Affichez les animaux à Rouen
         
         //• Affichez les informations Wolfram Alpha du Saïga
