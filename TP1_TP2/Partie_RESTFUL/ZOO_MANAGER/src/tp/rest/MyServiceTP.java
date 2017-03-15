@@ -66,7 +66,7 @@ public class MyServiceTP implements Provider<Source> {
         }
 
         // Fill our center with some animals
-        Cage rouen = new Cage(
+        /*Cage rouen = new Cage(
                 "Cage de Rouen",
                 new Position( 49.443889, 1.103333),
                 20,
@@ -127,7 +127,7 @@ public class MyServiceTP implements Provider<Source> {
                 new Position(  50.0218 , 2.3261),
                 23,
                 new LinkedList<>()
-        );
+        );*/
         
         Cage usa = new Cage(
                 "usa",
@@ -151,7 +151,7 @@ public class MyServiceTP implements Provider<Source> {
                 ))
         );
 
-        center.getCages().addAll(Arrays.asList(rouen, paris, somalie, bihorel, londres, canada, porto_Vecchio, montreux, villers_Bocage, usa, amazon));
+        center.getCages().addAll(Arrays.asList(usa, amazon/*rouen, paris, somalie, bihorel, londres, canada, porto_Vecchio, montreux, villers_Bocage*/));
     }
 
     public Source invoke(Source source) {
@@ -197,6 +197,17 @@ public class MyServiceTP implements Provider<Source> {
                             throw new HTTPException(404);
                     }
                 //throw new HTTPException(503);
+            }
+            else if(path.startsWith("cage")){
+            	String[] path_parts = path.split("/");
+                    switch (path_parts[1]){
+                    	case "add" :
+                    		return this.cageCrud(method, source);
+                    	case "delete" :
+                    		return this.cageCrud(method, source);
+                    	default :
+                    		throw new HTTPException(404);
+                    }
             }
             else if(path.startsWith("center")){
             	String[] path_parts = path.split("/");
@@ -296,10 +307,52 @@ public class MyServiceTP implements Provider<Source> {
             		animal= it3.next();
             		/*Si l'id animal=animal_id alors on supprime l'animal*/
             		if(animal.getId().equals(UUID.fromString(animal_id))){
-            			System.out.println("Animal supprimer i ="+ UUID.fromString(animal_id));
+            			System.out.println("Animal supprimé i ="+ UUID.fromString(animal_id));
             			listAnimals.remove(animal);
             		}
             	}
+            }
+            return new JAXBSource(this.jc, this.center);
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
+
+    /**
+     * Method bound to calls on /cage/{something}
+     */
+    private Source cageCrud(String method, Source source) throws JAXBException {
+    	/*Retourne l'ensemble des cages*/
+        if("GET".equals(method)){
+            return new JAXBSource(this.jc, center.getCages());
+        }
+        
+        /*Crée une nouvelle cage*/
+        else if("POST".equals(method)){
+        	/*On récupère la cage depuis la source*/
+            Cage cage = unmarshalCage(source);
+            /*On insère la nouvelle cage*/
+            this.center.getCages().add(cage);
+            return new JAXBSource(this.jc, this.center);
+        }
+        
+        /*Supprimer une cage*/	
+        else if("PUT".equals(method)){
+        	/*On récupère la cage depuis la source*/
+            Cage cage = unmarshalCage(source);
+        	/*Onrécupère l'ensemble des cages*/
+        	Collection<Cage> listCages = this.center.getCages();
+            Cage cageCollection;
+            Iterator<Cage> it = listCages.iterator();
+            
+            /*On parcourt le collection de cages*/
+            while(it.hasNext()){
+            	cageCollection = it.next();
+            		if(cageCollection.getPosition().equals(cage.getPosition())){
+            			System.out.println("Cage supprimée Position = "+ cage.getPosition().getLatitude()+" ; "+cage.getPosition().getLongitude());
+            			listCages.remove(cageCollection);
+            		}
             }
             return new JAXBSource(this.jc, this.center);
         }
@@ -607,5 +660,8 @@ public class MyServiceTP implements Provider<Source> {
     }
     private Animal unmarshalAnimal(Source source) throws JAXBException {
         return (Animal) this.jc.createUnmarshaller().unmarshal(source);
+    }
+    private Cage unmarshalCage(Source source) throws JAXBException {
+        return (Cage) this.jc.createUnmarshaller().unmarshal(source);
     }
 }

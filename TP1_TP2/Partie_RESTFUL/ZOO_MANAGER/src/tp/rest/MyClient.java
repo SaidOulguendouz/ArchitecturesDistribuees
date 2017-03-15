@@ -17,6 +17,8 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.http.HTTPBinding;
+
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,6 +35,28 @@ public class MyClient {
         } catch (JAXBException je) {
             System.out.println("Cannot create JAXBContext " + je);
         }
+    }
+    
+    /*La fonction qui permet d'ajouter une cage*/
+    public void add_cage(Cage c) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/cage/add");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "POST");
+        Source result = dispatcher.invoke(new JAXBSource(jc, c));
+        printSource(result);
+    }
+    
+    /*La fonction qui permet de supprimer une cage*/
+    public void delete_cage(Cage c) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/cage/delete");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "PUT");
+        Source result = dispatcher.invoke(new JAXBSource(jc, c));
+        printSource(result);
     }
 
     /*La fonction qui permet d'afficher l'ensemble des animaux*/
@@ -179,37 +203,45 @@ public class MyClient {
 
     public static void main(String args[]) throws Exception {
         MyClient client = new MyClient();
-        /*Ajoute un animal*/
+        //Ajouter une cage
+        //client.add_cage(new Cage("Cage de Rouen", new Position( 49.443889, 1.103333), 20, new LinkedList<>()));
+        
+        //Supprimer une cage
+        /*Cage g = new Cage();
+        g.setPosition(new Position(49.443889, 1.103333));
+        client.delete_cage(g);*/
+        
+        //Ajoute un animal
         //client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
         
-        /*Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal*/
+        //Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal
         //client.edit_animals();
         
-        /*Supprime l'ensemble des animaux*/
+        //Supprime l'ensemble des animaux
         //client.delete_animals();
         
-        /*Crée l’animal identifié par {animal_id}*/
+        //Crée l’animal identifié par {animal_id}
         //client.add_animal_By_Id(new Animal("Test22", "amazon", "Arapaima gigas", UUID.randomUUID()), "b590c595-e559-4153-a1d2-00446d87e200");
         
-        /*Modifie l’animal identifié par {animal_id}*/
+        //Modifie l’animal identifié par {animal_id}
         //client.edit_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
         
-        /*Supprime l’animal identifié par {animal_id}*/
+        //Supprime l’animal identifié par {animal_id}
         //client.delete_animal_By_Id("b590c595-e559-4153-a1d2-00446d87e200");
         
-        /*Recherche d'un animal par son nom*/
+        //Recherche d'un animal par son nom
        //client.find_animal_By_Name("Test22");
         
         /*Recherche d'un animal par position*/
        //client.find_animal_By_Position("49.305142d;1.2154067d");
        
-       /*Recherche d'un animal près d’une position*/
+       //Recherche d'un animal près d’une position
       //client.find_animal_Near_Position("49.305d;1.2155357d");
         
-        /*Récupération des info. Wolfram d’un animal*/
+        //Récupération des info. Wolfram d’un animal
        //client.animal_Infos_Wolfram("b580c595-e559-4153-a1d2-00446d87e200");
         
-        /*Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper*/
+        //Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper
        //client.animal_Infos_Trajet("40.305d;1.0155357d");
         
         /*****************************************************************************************************/
@@ -224,7 +256,7 @@ public class MyClient {
         //client.get_animals();
         
         //• Ajoutez un Panda à Rouen (Latitude : 49.443889 ; Longitude : 1.103333)
-        client.add_animal(new Animal("Panda", "Cage de Rouen", "Rouen", UUID.randomUUID()));
+        /*client.add_animal(new Animal("Panda", "Cage de Rouen", "Rouen", UUID.randomUUID()));
         
         //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
         client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
@@ -275,7 +307,7 @@ public class MyClient {
         client.add_animal(new Animal("101 Dalmatiens", "usa", "Chipmunk", UUID.randomUUID()));
         
         //• Affichez l'ensemble des animaux
-        client.get_animals();
+        client.get_animals();*/
         
         //• Supprimez tous les animaux de Paris
         
