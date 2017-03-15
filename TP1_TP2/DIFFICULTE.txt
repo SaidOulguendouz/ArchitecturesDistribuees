@@ -1,0 +1,6 @@
+difficultés rencontrées :
+
+la programmation de de la fonctionalité :
+GET /center/journey/from/{position} =>  Récupération des info. Du trajet depuis
+					une position GPS jusqu’à votre centre en
+					utilisant le service Graphhopper
