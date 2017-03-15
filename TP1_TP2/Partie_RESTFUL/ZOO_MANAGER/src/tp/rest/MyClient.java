@@ -321,30 +321,39 @@ public class MyClient {
         //• Supprimez tous les animaux de Paris
         
         //• Affichez l'ensemble des animaux
+        client.get_animals();
         
         //• Recherchez le Galago de Rondo
+        client.find_animal_By_Name("Galago de Rondo");
         
         //• Supprimez le Galago de Rondo
         
         //• Supprimez à nouveau le Galago de Rondo
         
         //• Affichez l'ensemble des animaux
+        client.get_animals();
         
         //• Affichez les animaux située près de Rouen
+        client.find_animal_Near_Position("49.443889;1.103333");
         
         //• Affichez les animaux à Rouen
         
         //• Affichez les informations Wolfram Alpha du Saïga
+        client.animal_Infos_Wolfram("");
         
         //• Affichez les informations Wolfram Alpha de l'Ara de Spix
+        client.animal_Infos_Wolfram("");
         
         //• Affichez le trajet jusqu'au centre de Somalie
+        client.animal_Infos_Trajet("2.333333;48.85");
         
         //• Affichez le trajet jusqu'au centre de Londres
+        client.animal_Infos_Trajet("51.504872;-0.07857");
         
         //• Supprimez tous les animaux
+        client.delete_animals();
         
         //• Affichez l'ensemble des animaux
-        
+        client.get_animals();
     }
 }
