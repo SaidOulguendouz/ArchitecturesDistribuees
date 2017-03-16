@@ -92,6 +92,17 @@ public class MyClient {
         printSource(result);
     }
 
+    /*La fonction qui permet de Modifie l'ensemble des animaux d'une cage*/
+    public void edit_animals_Cage(Animal animal) throws JAXBException{
+    	service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/cage/edit");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "PUT");
+        Source result = dispatcher.invoke(new JAXBSource(jc,animal));
+        printSource(result);
+    }
+
     /*La fonction qui permet de Supprime l'ensemble des animaux*/
     public void delete_animals() throws JAXBException{
     	service = Service.create(qname);
@@ -261,16 +272,17 @@ public class MyClient {
         
         //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
         //client.add_cage(new Cage("Cage de Paris",new Position( 48.856578 , 2.351828),30,new LinkedList<>()));
-        client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
+       /*client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Affichez tous les animaux
-        client.get_animals();
+        client.get_animals();*/
         
         //• Modifiez l'ensemble des animaux par un Lagotriche à queue jaune à Rouen (Latitude :49.443889 ; Longitude : 1.103333)
-        client.edit_animals();
+        Animal a=new Animal("Lagotriche à queue jaune", "Cage de Rouen", "Rouen", UUID.randomUUID());
+        client.edit_animals_Cage(a);
         
         //• Affichez tous les animaux
-        client.get_animals();
+        /*client.get_animals();
         
         //• Ajoutez une Océanite de Matsudaira en Somalie (Latitude : 2.333333 ; Longitude : 48.85)
         //client.add_cage(new Cage("Cage de Somalie",new Position(  2.333333  , 48.85),26,new LinkedList<>()));
@@ -354,6 +366,6 @@ public class MyClient {
         client.delete_animals();
         
         //• Affichez l'ensemble des animaux
-        client.get_animals();
+        client.get_animals();*/
     }
 }

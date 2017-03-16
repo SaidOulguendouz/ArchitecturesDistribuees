@@ -160,6 +160,8 @@ public class MyServiceTP implements Provider<Source> {
                     		return this.cageCrud(method, source);
                     	case "delete" :
                     		return this.cageCrud(method, source);
+                    	case "edit" :
+                    		return this.cageEdit(method, source);
                     	default :
                     		throw new HTTPException(404);
                     }
@@ -308,6 +310,38 @@ public class MyServiceTP implements Provider<Source> {
             			System.out.println("Cage supprimée Position = "+ cage.getPosition().getLatitude()+" ; "+cage.getPosition().getLongitude());
             			listCages.remove(cageCollection);
             		}
+            }
+            return new JAXBSource(this.jc, this.center);
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
+    private Source cageEdit(String method, Source source) throws JAXBException {
+    	/*Modifie l'ensemble des animaux d'une cage*/
+        if("PUT".equals(method)){
+            Animal anim = unmarshalAnimal(source);
+        	/*On récupère l'ensemble des cages*/
+           Collection<Cage> listCages = this.center.getCages();
+            Cage cage;
+            Collection<Animal> listAnimals;
+            Iterator<Cage> it = listCages.iterator();
+            Iterator<Animal> it2;
+            //int i=1;
+            
+            /*On parcourt le collection de cages*/
+            while(it.hasNext()){
+            	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
+            	listAnimals = cage.getResidents();
+            	
+            	if(cage.getName().equals(anim.getCage())){
+	            	/*On parcourt le collection d'animaux*/
+	            	for(Animal animal : listAnimals){
+	            		//On modifie chaque animal
+	            		animal.setName(anim.getName());
+	            	}
+            	}
             }
             return new JAXBSource(this.jc, this.center);
         }
