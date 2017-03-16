@@ -31,6 +31,15 @@ public class Center {
                 .orElseThrow(AnimalNotFoundException::new);
     }
 
+    public Animal findAnimalByName(String name) throws AnimalNotFoundException {
+        return this.cages.stream()
+                .map(Cage::getResidents)
+                .flatMap(Collection::stream)
+                .filter(animal -> name.equals(animal.getName()))
+                .findFirst()
+                .orElseThrow(AnimalNotFoundException::new);
+    }
+
     public Collection<Cage> getCages() {
         return cages;
     }

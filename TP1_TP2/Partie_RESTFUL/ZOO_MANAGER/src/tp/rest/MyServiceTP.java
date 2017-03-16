@@ -127,12 +127,14 @@ public class MyServiceTP implements Provider<Source> {
                     case 1 :
                         return this.animalsCrud(method, source);
                     case 2 :
-                        return this.animalCrud(method, source, path_parts[1]);
+                    	return this.animalCrud(method, source, path_parts[1]);
                     case 3 :
                     	return this.animalInfoWolfram(method, source, path_parts[1]);
                     default:
                         throw new HTTPException(404);
                 }
+            }else if (path.startsWith("wolf")) {
+            	return this.animalInfoWolfraByName(method, source);
             }
             else if (path.startsWith("find")) {
             		String[] path_parts = path.split("/");
@@ -140,7 +142,7 @@ public class MyServiceTP implements Provider<Source> {
                         case 3 :
                         	switch (path_parts[1]){
                         		case "byName" :
-                                    return this.animalFindByName(method, source, path_parts[2]);
+                                    return this.animalFindByName(method, source);
                         		case "at" :
                         			return this.animalAtPosition(method, source, path_parts[2]);
                         		case "near" :
@@ -162,9 +164,15 @@ public class MyServiceTP implements Provider<Source> {
                     		return this.cageCrud(method, source);
                     	case "edit" :
                     		return this.cageEdit(method, source);
+                    	case "deleteAnimals" :
+                    		return this.cageDelete(method, source,path_parts[2]);
                     	default :
                     		throw new HTTPException(404);
                     }
+            }
+            else if(path.startsWith("animalDelete")){
+            	String[] path_parts = path.split("/");
+                    return this.animalDelete(method, source);
             }
             else if(path.startsWith("center")){
             	String[] path_parts = path.split("/");
@@ -332,15 +340,73 @@ public class MyServiceTP implements Provider<Source> {
             /*On parcourt le collection de cages*/
             while(it.hasNext()){
             	cage = it.next();
-            	/*On récupère l'ensemle des animaux de la cage*/
-            	listAnimals = cage.getResidents();
             	
             	if(cage.getName().equals(anim.getCage())){
+                	/*On récupère l'ensemle des animaux de la cage*/
+                	listAnimals = cage.getResidents();
 	            	/*On parcourt le collection d'animaux*/
 	            	for(Animal animal : listAnimals){
 	            		//On modifie chaque animal
 	            		animal.setName(anim.getName());
 	            	}
+            	}
+            }
+            return new JAXBSource(this.jc, this.center);
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
+    
+    private Source cageDelete(String method, Source source, String nomCage) throws JAXBException {
+    	/*Supprimer l'ensemble des animaux d'une cage*/
+        if("PUT".equals(method)){
+        	/*On récupère l'ensemble des cages*/
+           Collection<Cage> listCages = this.center.getCages();
+            Cage cage;
+            Iterator<Cage> it = listCages.iterator();
+            //int i=1;
+            
+            /*On parcourt le collection de cages*/
+            while(it.hasNext()){
+            	cage = it.next();
+            	if(cage.getName().contains(nomCage)){
+            		cage.getResidents().clear();
+            	}
+            }
+            return new JAXBSource(this.jc, this.center);
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
+    
+    private Source animalDelete(String method, Source source) throws JAXBException {
+    	/*Supprimer un animal par son nom*/
+        if("PUT".equals(method)){
+            Animal anim = unmarshalAnimal(source);
+        	/*Onrécupère l'ensemble des cages*/
+        	Collection<Cage> listCages = this.center.getCages();
+            Cage cage;
+            Collection<Animal> listAnimals;
+            Iterator<Cage> it = listCages.iterator();
+            Iterator<Animal> it3;
+            Animal animal;
+            
+            /*On parcourt le collection de cages*/
+            while(it.hasNext()){
+            	cage = it.next();
+            	/*On récupère l'ensemle des animaux de la cage*/
+            	listAnimals = cage.getResidents();
+            	it3 = listAnimals.iterator();
+            	/*On parcourt le collection d'animaux*/
+            	while(it3.hasNext()){
+            		animal= it3.next();
+            		/*Si le nom animal=nomAnimal alors on supprime l'animal*/
+            		if(animal.getName().equals(anim.getName())){
+            			System.out.println("Animal supprimé Nom = "+ animal.getName());
+            			listAnimals.remove(animal);
+            		}
             	}
             }
             return new JAXBSource(this.jc, this.center);
@@ -424,8 +490,9 @@ public class MyServiceTP implements Provider<Source> {
     /**
      * Method bound to calls on /find/byName/{name}
      */
-    private Source animalFindByName(String method, Source source, String animal_name) throws JAXBException {
+    private Source animalFindByName(String method, Source source) throws JAXBException {
         if("GET".equals(method)){
+            Animal anim = unmarshalAnimal(source);
         	/*Onrécupère l'ensemble des cages*/
         	Collection<Cage> listCages = this.center.getCages();
             Cage cage;
@@ -444,7 +511,7 @@ public class MyServiceTP implements Provider<Source> {
             	while(it2.hasNext()){
             		animal= it2.next();
             		/*Si le nom de l'animal=animal_name alors on retourne l'animal*/
-            		if(animal.getName().equals(animal_name)){
+            		if(animal.getName().equals(anim.getName())){
             			try {
                             return new JAXBSource(this.jc, center.findAnimalById(animal.getId()));
                         } catch (AnimalNotFoundException e) {
@@ -647,6 +714,30 @@ public class MyServiceTP implements Provider<Source> {
             throw new HTTPException(405);
         }
     }
+    /**
+     * Method bound to calls on /animals/wolf
+     */
+    private Source animalInfoWolfraByName(String method, Source source) throws JAXBException {
+        Animal anim = unmarshalAnimal(source);
+    	/*Récupération des info. Wolfram d’un animal identifié par {animal_id}*/
+        if("PUT".equals(method)){
+            try {
+            	Animal animal= center.findAnimalByName(anim.getName());
+                System.out.println("Animal trouvé :");
+               	System.out.println("                 -> Nom : "+animal.getName());
+               	System.out.println("                 -> Cage : "+animal.getCage());
+               	System.out.println("                 -> Species : "+animal.getSpecies());
+                return new JAXBSource(this.jc, animal);
+            } catch (AnimalNotFoundException e) {
+        		System.out.println("--> Cet animal n'existe pas!");
+                throw new HTTPException(404);
+            }
+        }
+        else{
+            throw new HTTPException(405);
+        }
+    }
+    
     private Animal unmarshalAnimal(Source source) throws JAXBException {
         return (Animal) this.jc.createUnmarshaller().unmarshal(source);
     }

@@ -42,54 +42,70 @@ NB :
 
 les appelle aux fonctions a partir du client sont comme suit :
 
-		1- Ajouter une cage
-        client.add_cage(Cage g);
-        voir le resultat sur le navigateur : /animals
+	1- Ajouter une cage
+        	client.add_cage(Cage g);
+        		voir le resultat sur le navigateur : /animals
 		
         2- Supprimer une cage
-        client.delete_cage(Cage g);
-        voir le resultat sur le navigateur : /animals
+        	client.delete_cage(Cage g);
+        		voir le resultat sur le navigateur : /animals
 		
         3- Ajoute un animal
-        client.add_animal(Animal a);
-        voir le resultat sur le navigateur : /animals
+        	client.add_animal(Animal a);
+        		voir le resultat sur le navigateur : /animals
         
-		4- Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal
-        client.edit_animals();
-        voir le resultat sur le navigateur : /animals
+	4- Modifie l'ensemble des animaux : la modification rajoute "Modifié" au nom de chaque animal
+        	client.edit_animals();
+        		voir le resultat sur le navigateur : /animals
 		
         5- Supprime l'ensemble des animaux
-        client.delete_animals();
-        voir le resultat sur le navigateur : /animals
+        	client.delete_animals();
+        		voir le resultat sur le navigateur : /animals
 		
         6- Crée l’animal identifié par {animal_id}
-        client.add_animal_By_Id(new Animal(Stirng nomAnimal, Stirng nomCage, Stirng nomSpecies, UUID.randomUUID()), String animal_id);
-        voir le resultat sur le navigateur : /animals
+        	client.add_animal_By_Id(new Animal(Stirng nomAnimal, Stirng nomCage, Stirng nomSpecies, UUID.randomUUID()), String animal_id);
+        		voir le resultat sur le navigateur : /animals
 		
         7- Modifie l’animal identifié par {animal_id}
-        client.edit_animal_By_Id(Stirng animal_id);
-        voir le resultat sur le navigateur : /animals
+        	client.edit_animal_By_Id(Stirng animal_id);
+        		voir le resultat sur le navigateur : /animals
 		
         8- Supprime l’animal identifié par {animal_id}
-        client.delete_animal_By_Id(Stirng animal_id);
-        voir le resultat sur le navigateur : /animals
+        	client.delete_animal_By_Id(Stirng animal_id);
+        		voir le resultat sur le navigateur : /animals
 		
         9- Recherche d'un animal par son nom
-        client.find_animal_By_Name(Stirng nomAnimal);
-        voir le resultat sur le navigateur : /find/byName/{name}
+        	client.find_animal_By_Name(Stirng nomAnimal);
+        		voir le resultat sur le navigateur : /find/byName/{name}
 		
         10- Recherche d'un animal par position
-        client.find_animal_By_Position("latitude;longitude");
-        voir le resultat sur le navigateur : /find/byName/{position}
+        	client.find_animal_By_Position("latitude;longitude");
+        		voir le resultat sur le navigateur : /find/byName/{position}
 		
         11- Recherche d'un animal près d’une position
-        client.find_animal_Near_Position("latitude;longitude");
-        voir le resultat sur le navigateur : /find/near/{position}
+        	client.find_animal_Near_Position("latitude;longitude");
+        		voir le resultat sur le navigateur : /find/near/{position}
         
-		12- Récupération des info. Wolfram d’un animal
-        client.animal_Infos_Wolfram(Stirng animal_id);
-        voir le resultat sur le navigateur : /animals/{animal_id}/wolf
+	12- Récupération des info. Wolfram d’un animal
+        	client.animal_Infos_Wolfram(Stirng animal_id);
+        		voir le resultat sur le navigateur : /animals/{animal_id}/wolf
 		
         13- Récupération des info. Du trajet depuis une position GPS jusqu’à votre centre en utilisant le service Graphhopper
         client.animal_Infos_Trajet("latitude;longitude");
 		voir le resultat sur le navigateur : /center/journey/from/{position}
+
+	14- Supprimer l'ensemble des animaux d'une cage
+		client.delete_animals_Cage(String cageName);
+			url : /cage/deleteAnimals/{cageName}
+
+	15- Modifie l'ensemble des animaux d'une cage
+		client.edit_animals_Cage(Animal animal);
+			url : /cage/edit
+
+	16- Supprime un animal par son nom
+    		client.delete_animal_By_Name(String animalName);
+			url : /animalDelete
+
+	16- Récupère des info. Wolfram d’un animal par son nom
+    		client.animal_Infos_Wolfram_byName(String name);
+			url : /wolf

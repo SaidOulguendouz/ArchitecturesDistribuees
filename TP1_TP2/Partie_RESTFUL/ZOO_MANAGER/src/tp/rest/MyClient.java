@@ -114,6 +114,17 @@ public class MyClient {
         printSource(result);
     }
 
+    /*La fonction qui permet de Supprime l'ensemble des animaux d'une cage*/
+    public void delete_animals_Cage(String cageName) throws JAXBException{
+    	service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/cage/deleteAnimals/"+cageName);
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "PUT");
+        Source result = dispatcher.invoke(new JAXBSource(jc,new Cage()));
+        printSource(result);
+    }
+
     /*La fonction qui permet de Crée l’animal identifié par {id}*/
     public void add_animal_By_Id(Animal animal, String id) throws JAXBException {
         service = Service.create(qname);
@@ -147,14 +158,29 @@ public class MyClient {
         printSource(result);
     }
 
+    /*La fonction qui permet de Supprime l’animal nomé animalName*/
+    public void delete_animal_By_Name(String animalName) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/animalDelete");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "PUT");
+        Animal a=new Animal();
+        a.setName(animalName);
+        Source result = dispatcher.invoke(new JAXBSource(jc, a));
+        printSource(result);
+    }
+
     /*La fonction qui Recherche un animal par son nom*/
     public void find_animal_By_Name(String name) throws JAXBException {
         service = Service.create(qname);
-        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/find/byName/"+name);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/find/byName/");
         Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
         Map<String, Object> requestContext = dispatcher.getRequestContext();
         requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
-        Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        Animal a=new Animal();
+        a.setName(name);
+        Source result = dispatcher.invoke(new JAXBSource(jc, a));
         printSource(result);
     }
     
@@ -188,6 +214,19 @@ public class MyClient {
         Map<String, Object> requestContext = dispatcher.getRequestContext();
         requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "GET");
         Source result = dispatcher.invoke(new JAXBSource(jc, new Animal()));
+        printSource(result);
+    }
+    
+    /*La fonction qui Récupère des info. Wolfram d’un animal*/
+    public void animal_Infos_Wolfram_byName(String name) throws JAXBException {
+        service = Service.create(qname);
+        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + "/wolf");
+        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
+        Map<String, Object> requestContext = dispatcher.getRequestContext();
+        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, "PUT");
+        Animal a=new Animal();
+        a.setName(name);
+        Source result = dispatcher.invoke(new JAXBSource(jc, a));
         printSource(result);
     }
     
@@ -272,17 +311,17 @@ public class MyClient {
         
         //• Ajoutez un Hocco unicorne à Paris (Latitude : 48.856578 ; Longitude : 2.351828)
         //client.add_cage(new Cage("Cage de Paris",new Position( 48.856578 , 2.351828),30,new LinkedList<>()));
-       /*client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
+       client.add_animal(new Animal("Hocco unicorne", "Cage de Paris", "Paris", UUID.randomUUID()));
         
         //• Affichez tous les animaux
-        client.get_animals();*/
+        client.get_animals();
         
         //• Modifiez l'ensemble des animaux par un Lagotriche à queue jaune à Rouen (Latitude :49.443889 ; Longitude : 1.103333)
         Animal a=new Animal("Lagotriche à queue jaune", "Cage de Rouen", "Rouen", UUID.randomUUID());
         client.edit_animals_Cage(a);
         
         //• Affichez tous les animaux
-        /*client.get_animals();
+        client.get_animals();
         
         //• Ajoutez une Océanite de Matsudaira en Somalie (Latitude : 2.333333 ; Longitude : 48.85)
         //client.add_cage(new Cage("Cage de Somalie",new Position(  2.333333  , 48.85),26,new LinkedList<>()));
@@ -331,6 +370,7 @@ public class MyClient {
         client.get_animals();
         
         //• Supprimez tous les animaux de Paris
+        client.delete_animals_Cage("Paris");
         
         //• Affichez l'ensemble des animaux
         client.get_animals();
@@ -339,8 +379,10 @@ public class MyClient {
         client.find_animal_By_Name("Galago de Rondo");
         
         //• Supprimez le Galago de Rondo
+        client.delete_animal_By_Name("Galago de Rondo");
         
         //• Supprimez à nouveau le Galago de Rondo
+        client.delete_animal_By_Name("Galago de Rondo");
         
         //• Affichez l'ensemble des animaux
         client.get_animals();
@@ -351,10 +393,10 @@ public class MyClient {
         //• Affichez les animaux à Rouen
         
         //• Affichez les informations Wolfram Alpha du Saïga
-        client.animal_Infos_Wolfram("");
+        client.animal_Infos_Wolfram_byName("Saïga");
         
         //• Affichez les informations Wolfram Alpha de l'Ara de Spix
-        client.animal_Infos_Wolfram("");
+        client.animal_Infos_Wolfram_byName("Ara de Spix");
         
         //• Affichez le trajet jusqu'au centre de Somalie
         client.animal_Infos_Trajet("2.333333;48.85");
@@ -366,6 +408,6 @@ public class MyClient {
         client.delete_animals();
         
         //• Affichez l'ensemble des animaux
-        client.get_animals();*/
+        client.get_animals();
     }
 }
