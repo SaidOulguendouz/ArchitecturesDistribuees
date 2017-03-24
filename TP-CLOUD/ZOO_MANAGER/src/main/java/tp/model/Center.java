@@ -1,5 +1,6 @@
 package tp.model;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,6 +31,15 @@ public class Center {
                 .findFirst()
                 .orElseThrow(AnimalNotFoundException::new);
     }
+
+    /*public Animal findAnimalByName(String name) throws AnimalNotFoundException {
+        return this.cages.stream()
+                .map(Cage::getResidents)
+                .flatMap(Collection::stream)
+                .filter(animal -> name.equals(animal.getName()))
+                .findFirst()
+                .orElseThrow(AnimalNotFoundException::new);
+    }*/
 
     public Collection<Cage> getCages() {
         return cages;

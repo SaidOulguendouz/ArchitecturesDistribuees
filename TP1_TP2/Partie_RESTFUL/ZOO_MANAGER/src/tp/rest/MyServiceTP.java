@@ -573,7 +573,7 @@ public class MyServiceTP implements Provider<Source> {
     }
 
     /**
-     * Method bound to calls on /find/at/{position}
+     * Method bound to calls on /find/near/{position}
      */
     private Source animalNearPosition(String method, Source source, String position) throws JAXBException {
         if("GET".equals(method)){

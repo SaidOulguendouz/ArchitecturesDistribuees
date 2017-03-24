@@ -23,5 +23,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Saïd/Desktop/GitHub/ArchitecturesDistribuees/TP1_TP2/Partie_RESTFUL/lib/graphhopper-web-0.9-SNAPSHOT-with-dep.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
