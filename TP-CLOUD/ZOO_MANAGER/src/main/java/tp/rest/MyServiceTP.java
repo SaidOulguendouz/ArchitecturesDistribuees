@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.UUID;
 
-@Path("/zoo-manager/")
+@Path("/")
 public class MyServiceTP {
 
     private Center center = new Center(new LinkedList<>(), new Position(49.30494d, 1.2170602d), "Biotropica");
@@ -384,7 +384,7 @@ Cage rouen = new Cage("Cage de Rouen",new Position( 49.443889, 1.103333),20,new 
     @Produces("application/xml")
     public Animal animalAtPosition(@PathParam("position") String position){
     	/*On récupère la Latitude et la Longitude depuis le paramètre String : position
-    	 * La Latitude et la Longitude sont séparées pas ";"*/
+    	 * La Latitude et la Longitude sont séparées pas "-"*/
         String[] posLatLong = position.split("-");
         /*p est la position qui correspond aux coordonnées : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
         Position p= new Position(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]));
@@ -424,7 +424,7 @@ Cage rouen = new Cage("Cage de Rouen",new Position( 49.443889, 1.103333),20,new 
     @Produces("application/xml")
     public Animal animalNearPosition(@PathParam("position") String position){
     	/*On récupère la Latitude et la Longitude depuis le paramètre String : position
-    	 * La Latitude et la Longitude sont séparées pas ";"*/
+    	 * La Latitude et la Longitude sont séparées par "-"*/
         String[] posLatLong = position.split("-");
         /*p est la position qui correspond aux coordonnées : posLatLong[0]=Latitude et posLatLong[1]=Longitude*/
         Position p= new Position(Double.parseDouble(posLatLong[0]), Double.parseDouble(posLatLong[1]));

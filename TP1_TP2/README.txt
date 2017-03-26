@@ -5,7 +5,7 @@ Pour tester cette parite le code se trouve dans le dossier « PARTIE 1 »
 
 - ouvrir le fichier index.html avec un navigateur 
 - double clic sur une position donnée dans la carte permet de récuperer les coordonnées 
-	sous forme donnée XML OU JSON qui seront affiche juste en pas de la page.
+	sous forme donnée XML OU JSON qui seront affiche juste en bas de la page.
 	
 /*------------------------------------------PARTIE-2------------------------------------------*/
 
