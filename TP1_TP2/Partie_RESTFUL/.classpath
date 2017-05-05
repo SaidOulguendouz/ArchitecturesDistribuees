@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="ZOO_MANAGER/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Saïd/Desktop/GitHub/ArchitecturesDistribuees/TP1_TP2/Partie_RESTFUL/lib/graphhopper-web-0.9-SNAPSHOT-with-dep.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
